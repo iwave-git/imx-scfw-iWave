@@ -1,0 +1,10 @@
+/*!
+@defgroup pf8100_driver PF8100: PF8100 Power Management IC Driver
+Module for the PF8100 PMIC driver.
+
+@details This is an SDK driver for the NXP PF8100 PMIC. For more information,
+see the PF8100 Datasheet.
+
+If CRC operations are needed PMIC_CRC must be defined globally (usually in board.h)
+
+*/

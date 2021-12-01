@@ -1,0 +1,148 @@
+
+# Local settings
+LLC := dxl
+
+# Build rules
+
+ifeq ($(Z),1)
+
+ifeq ($(LOWER_T),all)
+
+$(LLC) : $(OUT)/ $(OUT)/scfw_tcm.bin $(OUT)/scfw_tests.bin $(OUT)/scfw.hex $(OUT)/scfw_tcm.hex $(OUT)/scfw_tests.hex
+	@echo "done."
+
+else
+
+$(LLC) : $(OUT)/ $(OUT)/scfw_tcm.bin $(OUT)/scfw.hex $(OUT)/scfw_tcm.hex
+	@echo "done."
+
+$(LLC)m4 : $(OUT)/ $(OUT)/scfw_tcm.bin $(OUT)/scfw.hex $(OUT)/scfw_tcm.hex
+	@echo "done."
+
+endif
+
+else
+
+ifeq ($(LOWER_T),all)
+
+$(LLC) : $(OUT)/ $(OUT)/scfw_tcm.bin $(OUT)/scfw_tests.bin
+	@echo "done."
+
+else
+
+$(LLC) : $(OUT)/ $(OUT)/scfw_tcm.bin
+	@echo "done."
+
+endif
+
+endif
+
+$(LLC)e : $(OUT)/ $(OUT)/sc 
+	@echo "done."
+
+gcov-$(LLC) : $(GCOV_OUT)
+	$(AT)-mkdir $(OUT)/gcov
+	$(AT)-mv *.gcov $(OUT)/gcov
+	@echo "done."
+
+clean-$(LLC) : scrub
+	$(AT)-rm -rf $(OUT)/
+
+clean-obj-$(LLC) :
+	$(AT)xargs -a bin/pkit_keep -I % rm -rf $(OUT)/%/
+	$(AT)-rm -f $(OUT)/scfw*.*
+
+dox-api-$(LLC) : clean $(OUT)/ ${INFH} ${CONFIGH} ${RPCH} ${RPCC} ${MD} doc/protocol.md $(SRC)/main/rpc.h
+	$(AT)perl bin/perl/addendum_cfg.pl doc/dox/addendum.cfg $(DOX_OUT) $(PROJ) API $(SRC)/main/rpc.h $(DOX_SOC) $(DOX_API) doc/protocol.md $(SRC)/config/$(CONFIG)/pads.h
+	$(DOXYGEN) doc/dox/api.cfg
+	$(AT)rm -f doc/dox/addendum.cfg
+	$(AT)-mkdir -p $(DOC)/html
+	$(AT)mv $(OUT)/docs/html $(OUT)/docs/sc_fw_api_$(LC)_$(LOWER_R)
+	$(AT)tar --directory=$(OUT)/docs -czf $(DOC)/html/sc_fw_api_$(LC)_$(LOWER_R).tar.gz sc_fw_api_$(LC)_$(LOWER_R)
+	$(AT)mv $(OUT)/docs/sc_fw_api_$(LC)_$(LOWER_R) $(OUT)/docs/html
+	$(AT)sed -i -f doc/dox/refman.sed $(OUT)/docs/latex/refman.tex
+	$(AT)cd $(OUT)/docs/latex && $(MAKE)
+	$(AT)-mkdir -p $(DOC)/pdf
+	$(AT)cp $(OUT)/docs/latex/refman.pdf $(DOC)/pdf/sc_fw_api_$(LC)_$(LOWER_R).pdf
+
+dox-hw-$(LLC) : clean $(OUT)/ ${INFH} ${CONFIGH} ${RPCH} ${RPCC} ${MD} $(SRC)/main/rpc.h
+	$(AT)perl bin/perl/addendum_cfg.pl doc/dox/addendum.cfg $(DOX_OUT) $(PROJ) $(UPPER_R) $(SRC)/main/rpc.h $(DOX_SOC)
+	$(AT)sed -i -f doc/dox/clocks.sed doc/clocks.md
+	$(DOXYGEN) doc/dox/hw.cfg
+	$(AT)rm -f doc/dox/addendum.cfg
+	$(AT)-mkdir -p $(DOC)/html
+	$(AT)mv $(OUT)/docs/html $(OUT)/docs/sc_fw_hw_$(LC)_$(LOWER_R)
+	$(AT)tar --directory=$(OUT)/docs -czf $(DOC)/html/sc_fw_hw_$(LC)_$(LOWER_R).tar.gz sc_fw_hw_$(LC)_$(LOWER_R)
+	$(AT)mv $(OUT)/docs/sc_fw_hw_$(LC)_$(LOWER_R) $(OUT)/docs/html
+	$(AT)-mkdir -p $(DOC)/xml
+	$(AT)mv $(OUT)/docs/xml $(OUT)/docs/sc_fw_hw_$(LC)_$(LOWER_R)
+	$(AT)tar --directory=$(OUT)/docs -czf $(DOC)/xml/sc_fw_hw_$(LC)_$(LOWER_R).xml.tar.gz sc_fw_hw_$(LC)_$(LOWER_R)
+	$(AT)mv $(OUT)/docs/sc_fw_hw_$(LC)_$(LOWER_R) $(OUT)/docs/xml
+
+dox-$(LLC) : clean $(OUT)/ ${INFH} ${CONFIGH} ${RPCH} ${RPCC} ${MD} doc/protocol.md $(SRC)/main/rpc.h
+	$(AT)perl bin/perl/addendum_cfg.pl doc/dox/addendum.cfg $(DOX_OUT) $(PROJ) $(UPPER_R) $(SRC)/main/rpc.h $(DOX_ADD) doc/protocol.md
+	$(DOXYGEN) doc/dox/full.cfg
+	$(AT)rm -f doc/dox/addendum.cfg
+	$(AT)-mkdir -p $(DOC)/html
+	$(AT)mv $(OUT)/docs/html $(OUT)/docs/sc_fw_$(LC)_$(LOWER_R)
+	$(AT)tar --directory=$(OUT)/docs -czf $(DOC)/html/sc_fw_$(LC)_$(LOWER_R).tar.gz sc_fw_$(LC)_$(LOWER_R)
+	$(AT)mv $(OUT)/docs/sc_fw_$(LC)_$(LOWER_R) $(OUT)/docs/html
+
+cppcheck-$(LLC) : $(LLC)e
+	$(AT)$(CPPCHECK) --error-exitcode=1 -q -j 4 --std=c99 -UDSC_VERIFICATION -UNO_DEVICE_ACCESS -USIMU -UDOX -UDOXYGEN -U__cplusplus --enable=warning,performance,style --inline-suppr --suppress=unreadVariable --suppress=unusedStructMember --suppress=redundantAssignment --suppress=nullPointerRedundantCheck --suppress=knownConditionTrueFalse --template='{file}:{line}: ({id}) {message}' -i$(SRC)/test -i$(SRC)/CMSIS -i$(SRC)/drivers/common -i$(SRC)/drivers/lpi2c -i$(SRC)/drivers/lpuart -i$(SRC)/drivers/wdog32 -I$(SRC) $(SRC) 2>&1 | tee -a log.txt
+
+cppcheck-dump-$(LLC) : $(LLC)e
+	$(AT)$(CPPCHECK) --dump --max-configs=1 -q -j 4 --std=c99 -UDSC_VERIFICATION -UNO_DEVICE_ACCESS -USIMU -UDOX -UDOXYGEN -U__cplusplus -i$(SRC)/test -i$(SRC)/CMSIS -I$(SRC) $(SRC)
+
+obj-$(LLC) : $(LLC)
+	$(AT)$(OBJDUMP) -h $(OUT)/scfw.elf
+	$(AT)$(OBJDUMP) -t -j .data $(OUT)/scfw.elf
+	$(AT)$(OBJDUMP) -t -j .bss $(OUT)/scfw.elf
+
+info-$(LLC) : $(SRC)/config/$(CONFIG)/soc.h
+	$(AT)perl bin/perl/pll_info.pl $(SRC)/config/$(CONFIG)/soc.h $(SS)
+
+memmap-$(LLC) : $(SRC)/config/$(CONFIG)/soc.h $(SRC)/devices/$(DEVICE)/memmap.txt
+	$(AT)perl bin/perl/memmap.pl $(SRC)/config/$(CONFIG)/soc.h $(SRC)/devices/$(DEVICE)/memmap.txt $(SS)
+
+export-$(LLC) : clean dxl $(TPROTOH) $(EOBJS)
+	$(AT)mkdir -p scfw_export_$(CONFIG)_$(LOWER_R)/bin
+	$(AT)cp -f doc/EULA.txt scfw_export_$(CONFIG)_$(LOWER_R)/COPYING
+	$(AT)cp -f doc/SCR-Header.txt scfw_export_$(CONFIG)_$(LOWER_R)/SCR-imx-scfw-porting-kit.txt
+	$(AT)cat doc/SCR-All.txt >> scfw_export_$(CONFIG)_$(LOWER_R)/SCR-imx-scfw-porting-kit.txt
+	$(AT)sed -i 's/#PACKAGE/scfw_export_$(CONFIG)_$(LOWER_R).tar.gz/g' scfw_export_$(CONFIG)_$(LOWER_R)/SCR-imx-scfw-porting-kit.txt
+	$(AT)sed -i 's/#TYPE/Binary and source code/g' scfw_export_$(CONFIG)_$(LOWER_R)/SCR-imx-scfw-porting-kit.txt
+	$(AT)sed -i 's/#DESC/System Controller firmware porting kit for i.MX8DXL/g' scfw_export_$(CONFIG)_$(LOWER_R)/SCR-imx-scfw-porting-kit.txt
+	$(AT)cp bin/dcd.sed scfw_export_$(CONFIG)_$(LOWER_R)/bin
+	$(AT)cp bin/retention.sed scfw_export_$(CONFIG)_$(LOWER_R)/bin
+	$(AT)cp bin/pkit_keep scfw_export_$(CONFIG)_$(LOWER_R)/bin
+	$(AT)mkdir -p scfw_export_$(CONFIG)_$(LOWER_R)/platform
+	$(AT)cp -f Makefile scfw_export_$(CONFIG)_$(LOWER_R)
+	$(AT)sed -i -f bin/export.sed scfw_export_$(CONFIG)_$(LOWER_R)/Makefile
+	$(AT)cp -rf $(OUT) scfw_export_$(CONFIG)_$(LOWER_R)
+	$(AT)rm -f scfw_export_$(CONFIG)_$(LOWER_R)/$(OUT)/scfw*.*
+	$(AT)xargs -a bin/pkit_keep -I % rm -rf scfw_export_$(CONFIG)_$(LOWER_R)/$(OUT)/%
+	$(AT)find scfw_export_$(CONFIG)_$(LOWER_R) -name "*.d" -type f -delete
+	$(AT)find platform -name "*LICENSE.txt" -type f -exec cp --parents -ft scfw_export_$(CONFIG)_$(LOWER_R) {} + 
+	$(AT)find platform -name "*.h" -type f -exec cp --parents -ft scfw_export_$(CONFIG)_$(LOWER_R) {} + 
+	$(AT)find platform -name "*.bom" -type f -exec cp --parents -ft scfw_export_$(CONFIG)_$(LOWER_R) {} + 
+	$(AT)find platform -name "*.ld" -type f -exec cp --parents -ft scfw_export_$(CONFIG)_$(LOWER_R) {} + 
+	$(AT)find platform -name "Makefile" -type f -exec cp --parents -ft scfw_export_$(CONFIG)_$(LOWER_R) {} + 
+	$(AT)xargs -a bin/pkit_keep -I % find platform/% -name "*" -type f -exec cp --parents -ft scfw_export_$(CONFIG)_$(LOWER_R) {} + 
+	$(AT)xargs -a bin/pkit_keep -I % find platform/% -name "*.c" -type f -exec md5sum {} + > scfw_export_$(CONFIG)_$(LOWER_R)/MANIFEST
+	$(AT)xargs -a bin/pkit_keep -I % find platform/% -name "*.h" -type f -exec md5sum {} + >> scfw_export_$(CONFIG)_$(LOWER_R)/MANIFEST
+	$(AT)grep -v platform/board/ scfw_export_$(CONFIG)_$(LOWER_R)/MANIFEST > scfw_export_$(CONFIG)_$(LOWER_R)/MANIFEST.tmp
+	$(AT)-sort -k 2 scfw_export_$(CONFIG)_$(LOWER_R)/MANIFEST.tmp -o scfw_export_$(CONFIG)_$(LOWER_R)/MANIFEST
+	$(AT)rm -f scfw_export_$(CONFIG)_$(LOWER_R)/MANIFEST.tmp
+	$(AT)find makefiles -name "*" -type f -exec cp --parents -ft scfw_export_$(CONFIG)_$(LOWER_R) {} + 
+	$(AT)find scfw_export_$(CONFIG)_$(LOWER_R)/platform/board -name "*dcd*.h" -type f -exec rm {} + 
+	$(AT)rm -rf scfw_export_$(CONFIG)_$(LOWER_R)/makefiles/dox
+	$(AT)rm -rf scfw_export_$(CONFIG)_$(LOWER_R)/makefiles/export
+	$(AT)rm -rf scfw_export_$(CONFIG)_$(LOWER_R)/makefiles/full
+	$(AT)rm -f scfw_export_$(CONFIG)_$(LOWER_R)/makefiles/$(CONFIG)/*.full
+	$(AT)mv scfw_export_$(CONFIG)_$(LOWER_R)/makefiles/obj/Makefile.config.unused scfw_export_$(CONFIG)_$(LOWER_R)/makefiles/obj/Makefile.config
+	$(AT)mv scfw_export_$(CONFIG)_$(LOWER_R)/makefiles/obj/Makefile.rules.unused scfw_export_$(CONFIG)_$(LOWER_R)/makefiles/obj/Makefile.rules
+	$(AT)perl bin/perl/makefile_rules2.pl bin/pkit_keep scfw_export_$(CONFIG)_$(LOWER_R)/makefiles/obj/Makefile.rules2
+	$(AT)tar --exclude=*.bak -czf ../scfw_export_$(CONFIG)_$(LOWER_R).tar.gz scfw_export_$(CONFIG)_$(LOWER_R)
+	$(AT)rm -rf scfw_export_$(CONFIG)_$(LOWER_R)
+

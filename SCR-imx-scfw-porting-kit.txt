@@ -1,0 +1,13 @@
+NXP Software Content Register
+
+--------------------------------------------
+
+Package:                   scfw_export_mx8qm_b0.tar.gz
+Outgoing License:          LA_OPT_NXP_Software_License - Additional distribution license granted - Section 2.3 applies
+License File:              COPYING
+Type of content:           Binary and source code
+Description and comments:  System Controller firmware porting kit for i.MX8QM
+Origin:                    NXP (proprietary)
+                           NXP (BSD-3-Clause)
+                           ARM CMSIS Library, ARM Limited (Apache-2.0) - https://silver.arm.com/
+                           IAR Systems (Apache-2.0) in CMSIS

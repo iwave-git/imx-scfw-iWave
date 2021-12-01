@@ -1,0 +1,9 @@
+/*!
+@defgroup pmic_driver PMIC: Power Management IC Driver
+Module for the PMIC driver.
+
+@details It is an SDK driver for the PMIC module of i.MX devices. PMIC users
+should not call the PMIC driver functions directly. Instead, use the PMIC access
+macros. This allows for quick PMIC change and dynamic PMIC binding.
+
+*/

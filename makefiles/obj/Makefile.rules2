@@ -1,0 +1,15 @@
+
+# Pkit build rules
+
+$(OUT)/board/%.o : $(SRC)/board/%.c ${INCH} ${INFH} ${CONFIGH} ${BIH} ${DCDH}
+	@echo "Compiling $<"
+	$(AT)${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
+
+$(OUT)/drivers/pmic/%.o : $(SRC)/drivers/pmic/%.c ${INCH} ${INFH} ${CONFIGH} ${BIH} ${DCDH}
+	@echo "Compiling $<"
+	$(AT)${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
+
+$(OUT)/svc/%.o : $(SRC)/svc/%.c ${INCH} ${INFH} ${CONFIGH} ${BIH} ${DCDH}
+	@echo "Compiling $<"
+	$(AT)${CC} ${CFLAGS} ${INCLUDE} -c $< -o $@
+

@@ -1,0 +1,26 @@
+
+# Build rules
+
+clean : 
+	$(AT)-rm -f log.txt
+	$(AT)${MAKE} --no-print-directory clean-obj-qm R=B0
+	$(AT)${MAKE} --no-print-directory clean-obj-qx R=B0
+	$(AT)${MAKE} --no-print-directory clean-obj-qx R=C0
+	$(AT)${MAKE} --no-print-directory clean-obj-dxl R=A0
+
+scrub : 
+	$(AT)-rm -f sc_fw.tar.gz
+	$(AT)-rm -f scfw_export_*.tar.gz
+	$(AT)-rm -f out.txt
+	$(AT)-rm -f *.stackdump
+	$(AT)-rm -f doc/resources.md
+	$(AT)-rm -f doc/clocks.md
+	$(AT)-rm -f doc/controls.md
+	$(AT)-rm -f doc/pad.md
+	$(AT)-rm -f doc/memmap.md
+	$(AT)-rm -f doc/protocol.md
+	$(AT)-find platform/board -name *dcd*.h -exec rm {} \;
+	$(AT)-find platform/board -name *_retention.h -exec rm {} \;
+	$(AT)-find platform/board -name *_parser.h -exec rm {} \;
+	$(AT)-find platform -name *.dump -exec rm {} \;
+

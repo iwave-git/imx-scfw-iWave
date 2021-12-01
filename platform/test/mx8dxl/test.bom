@@ -1,0 +1,96 @@
+## ###################################################################
+##
+##     Copyright 2020-2021 NXP
+##
+##     Redistribution and use in source and binary forms, with or without modification,
+##     are permitted provided that the following conditions are met:
+##
+##     o Redistributions of source code must retain the above copyright notice, this list
+##       of conditions and the following disclaimer.
+##
+##     o Redistributions in binary form must reproduce the above copyright notice, this
+##       list of conditions and the following disclaimer in the documentation and/or
+##       other materials provided with the distribution.
+##
+##     o Neither the name of the copyright holder nor the names of its
+##       contributors may be used to endorse or promote products derived from this
+##       software without specific prior written permission.
+##
+##     THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+##     ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+##     WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+##     DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+##     ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+##     (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+##     LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+##     ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+##     (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+##     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+##
+##
+## ###################################################################
+
+# This BOM will include tests applicable in a T=all build
+
+AUTO_TEST += drv/test_dsc.o         \
+             drv/test_pll.o        \
+             drv/test_snvs.o        \
+             drv/test_pmic.o        \
+             ss/test_dblogic.o      \
+             ss/test_db.o           \
+             ss/test_drc.o          \
+             ss/test_lsio.o         \
+             ss/test_dma.o          \
+             ss/test_conn.o         \
+             ss/test_ap.o           \
+             ss/test_audio.o        \
+             ss/test_hsio.o         \
+             ss/test_mcu.o          \
+             ss/test_v2x.o          \
+             misc/test_pd.o         \
+             svc/test_pm.o          \
+             svc/test_timer.o       \
+             svc/test_rm.o          \
+             svc/test_misc.o        \
+             svc/test_pad.o         \
+             svc/test_rm2.o         \
+             svc/test_seco.o        \
+             ddr/test_hexdump.o     \
+             ddr/test_ddr.o         \
+             misc/test_audio_pll.o  \
+             sys/test_temp.o        \
+             sys/test_uboot.o       \
+             sys/test_xrdc.o        \
+             sys/test_dump.o        \
+             sys/test_rpc.o
+
+EXPT_TEST += ddr/test_ddr_retention.o \
+             ddr/test_ddr_selfrefresh.o \
+             drv/test_drv.o \
+             drv/test_lpi2c.o \
+             drv/test_otp.o \
+             misc/test_bench.o \
+             misc/test_boottime.o \
+             misc/test_critsec.o \
+             misc/test_examples.o \
+             misc/test_fusewrite.o \
+             misc/test_hmppm.o \
+             misc/test_memreg.o \
+             misc/test_mtemp.o \
+             misc/test_nmi_ecc.o \
+             misc/test_nmi_lockup.o \
+             misc/test_nmi_msi.o \
+             misc/test_obd.o \
+             misc/test_osc24trim.o \
+             misc/test_pllchar.o \
+             misc/test_powerall.o \
+             misc/test_profile.o \
+             misc/test_refgencal.o \
+             misc/test_timers.o \
+             sys/test_board.o \
+             sys/test_boot.o \
+             sys/test_partnum.o \
+             sys/test_reboot.o \
+             sys/test_smmu.o \
+             sys/test_wdog.o
+

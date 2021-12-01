@@ -1,0 +1,212 @@
+
+# Local settings
+LLC := qx
+LUC := QX
+LOPT := -DHAS_SECO
+LSOFF := 0x32060000
+
+ifeq ($(MAKECMDGOALS), clean-$(LLC))
+    CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+    OUT := build_mx8$(LLC)
+    HW := SIMU
+	LC := $(LLC)
+	UC := $(LUC)
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+ifeq ($(MAKECMDGOALS), $(LLC)e)
+    CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+    OUT := build_mx8$(LLC)
+    HW := SIMU
+    OPT := $(LOPT)
+	LC := $(LLC)
+	UC := $(LUC)
+	TEST_B := mek
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+ifeq ($(MAKECMDGOALS), gcov-$(LLC))
+    CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+    OUT := build_mx8$(LLC)
+    HW := SIMU
+    OPT := $(LOPT)
+	LC := $(LLC)
+	UC := $(LUC)
+	TEST_B := mek
+	COVERAGE := 1
+	SIMUCFG := secondary
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+ifeq ($(MAKECMDGOALS), $(LLC)m4)
+    CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+    OUT := build_mx8$(LLC)
+    HW := REAL
+    OPT := $(LOPT) -DM4_BOOT
+    SREC_OFFSET := $(LSOFF)
+	LC := $(LLC)
+	UC := $(LUC)
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+ifeq ($(MAKECMDGOALS), dox-api-$(LLC))
+	CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+	OUT := build_mx8$(LLC)
+    HW := SIMU
+    PROJ := "i.MX8QXP Die"
+	LC := $(LLC)
+	UC := $(LUC)
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+ifeq ($(MAKECMDGOALS), dox-hw-$(LLC))
+	CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+	OUT := build_mx8$(LLC)
+    HW := SIMU
+    PROJ := "i.MX8QXP Die"
+	LC := $(LLC)
+	UC := $(LUC)
+	EXP := hw_
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+ifeq ($(MAKECMDGOALS), dox-$(LLC))
+	CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+	OUT := build_mx8$(LLC)
+    HW := SIMU
+    PROJ := "i.MX8QXP Die"
+	LC := $(LLC)
+	UC := $(LUC)
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+ifeq ($(MAKECMDGOALS), obj-$(LLC))
+    CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+    OUT := build_mx8$(LLC)
+    HW := REAL
+    OPT := $(LOPT)
+    SREC_OFFSET := $(LSOFF)
+	LC := $(LLC)
+	UC := $(LUC)
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+ifeq ($(MAKECMDGOALS), cppcheck-$(LLC))
+	CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+	OUT := build_mx8$(LLC)
+    HW := SIMU
+    OPT := $(LOPT)
+	LC := $(LLC)
+	UC := $(LUC)
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+ifeq ($(MAKECMDGOALS), cppcheck-dump-$(LLC))
+	CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+	OUT := build_mx8$(LLC)
+    HW := SIMU
+    OPT := $(LOPT)
+	LC := $(LLC)
+	UC := $(LUC)
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+ifeq ($(MAKECMDGOALS), info-$(LLC))
+	CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+	OUT := build_mx8$(LLC)
+    HW := SIMU
+    OPT := $(LOPT)
+	LC := $(LLC)
+	UC := $(LUC)
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+ifeq ($(MAKECMDGOALS), memmap-$(LLC))
+	CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+	OUT := build_mx8$(LLC)
+    HW := SIMU
+    OPT := $(LOPT)
+	LC := $(LLC)
+	UC := $(LUC)
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+ifeq ($(MAKECMDGOALS), export-$(LLC))
+    CONFIG := mx8$(LLC)
+    DEVICE := MX8$(LUC)
+    OUT := build_mx8$(LLC)
+    HW := REAL
+    OPT := $(LOPT)
+    SREC_OFFSET := $(LSOFF)
+	LC := $(LLC)
+	UC := $(LUC)
+    DL ?= 0
+    TL ?= 0
+    EM ?= 1
+	TEST_B := mek
+    ifneq ($(UPPER_R),B0)
+    ifneq ($(UPPER_R),C0)
+    $(error Invalid revision)
+    endif
+    endif
+endif
+
+#Help text
+HELP += \
+	"\tclean-$(LLC)       : remove all build files for the i.MX8$(LUC) build\n" \
+	"\t$(LLC)e            : build for i.MX8$(LUC) die simulation, output in build_mx8$(LLC)\n" \
+	"\tdox-api-$(LLC)     : generate API docs for i.MX8$(LUC) die, output in build_mx8$(LLC)\n" \
+	"\tdox-hw-$(LLC)      : generate HW docs for i.MX8$(LUC) die, output in build_mx8$(LLC)\n" \
+	"\tdox-$(LLC)         : generate docs for i.MX8$(LUC) die, output in build_mx8$(LLC)\n" \
+	"\tcppcheck-$(LLC)    : run cppcheck to do static code analysis for i.MX8$(LUC) die\n" \
+	"\tinfo-$(LLC)        : display info for i.MX8$(LUC) die port\n" \
+	"\texport-$(LLC)      : export files for i.MX8$(LUC) die customer package\n"
+

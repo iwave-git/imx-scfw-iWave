@@ -1,0 +1,8 @@
+/*!
+@defgroup pf100_driver PF100: PF100 Power Management IC Driver
+Module for the PF100 PMIC driver.
+
+@details This is an SDK driver for the NXP PF100 PMIC. For more information,
+see the PF100 Datasheet.
+
+*/
