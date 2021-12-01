@@ -77,6 +77,8 @@
 #define PF8X00_FAM_ID           0x40U
 #define PF7X00_FAM_ID           0x80U
 #define PF8100_A0_REV           0x10U
+/* IWG27M: PMIC: Defining B0 PMIC Version */
+#define PF8100_B0_REV           0x20U
 #define FAM_ID_MASK             0xF0U
 /** @} */
 
